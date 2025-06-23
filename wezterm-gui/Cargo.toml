@@ -1,5 +1,6 @@
 [package]
 name = "wezterm-gui"
+description = "A GPU-accelerated cross-platform terminal emulator and multiplexer"
 version = "0.1.0"
 authors = ["Wez Furlong <wez@wezfurlong.org>"]
 edition = "2018"
@@ -126,3 +127,37 @@ windows = { workspace=true, features = [
 benchmarking.workspace = true
 env_logger.workspace = true
 k9.workspace = true
+
+[package.metadata.deb]
+maintainer = "Midhun Raju <midhun.king@gmail.com>"
+copyright = "2024, Wez Furlong and other contributors"
+license-file = "../LICENSE.md"
+depends = "$auto, python3-nautilus"
+assets = [
+    # The binary path MUST start with "target/release/"
+    ["target/release/wezterm", "/usr/bin/wezterm", "755"],
+    ["target/release/wezterm-gui", "/usr/bin/wezterm-gui", "755"],
+
+    # Helper script
+    ["../assets/open-wezterm-here", "/usr/bin/open-wezterm-here", "755"],
+
+    # Application Menu Launcher (.desktop file)
+    ["../assets/wezterm.desktop", "/usr/share/applications/org.wezfurlong.wezterm.desktop", "644"],
+
+    # AppStream Metadata for Software Centers
+    ["../assets/wezterm.appdata.xml", "/usr/share/metainfo/org.wezfurlong.wezterm.appdata.xml", "644"],
+
+    # Application Icon
+    ["../assets/icon/wezterm-icon.svg", "/usr/share/icons/hicolor/scalable/apps/org.wezfurlong.wezterm.svg", "644"],
+
+    # Nautilus (Files) integration
+    ["../assets/wezterm-nautilus.py", "/usr/share/nautilus-python/extensions/wezterm-nautilus.py", "644"],
+
+    # Shell Completion Scripts
+    ["../assets/shell-completion/bash", "/usr/share/bash-completion/completions/wezterm", "644"],
+    ["../assets/shell-completion/zsh", "/usr/share/zsh/vendor-completions/_wezterm", "644"],
+    ["../assets/shell-completion/fish", "/usr/share/fish/vendor_completions.d/wezterm.fish", "644"],
+
+    # Shell Integration Scripts
+    ["../assets/shell-integration/wezterm.sh", "/etc/profile.d/wezterm.sh", "644"]
+]
